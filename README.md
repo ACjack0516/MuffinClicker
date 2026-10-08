@@ -7,7 +7,7 @@ A fun browser-based clicker/idle game where you bake muffins, unlock upgrades, a
 
 ## Play the Game
 
-*(Coming soon — once the game is playable, a live demo link will go here)*
+https://muffinclicker.vercel.app/
 
 ## Features
 
