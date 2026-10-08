@@ -166,6 +166,7 @@ function setView(view) {
     document.querySelectorAll('[data-view]').forEach((b) => b.classList.toggle('on', b.dataset.view === view));
     rowsSig = '';
     const v = els['main-view'];
+    v.innerHTML = ''; // the bakery view draws nothing until you own a building
     if (view === 'options') {
         v.innerHTML = `<h2>Options</h2>
             <div class="actions">
