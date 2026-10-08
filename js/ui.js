@@ -263,6 +263,7 @@ function showNews() {
         'Local baker insists a muffin is just a cupcake with ambition.',
         'Scientists confirm the muffin top is the best part. Muffin bottoms demand a recount.',
         'Blueberry or chocolate chip? Town hall meeting ends in a draw.',
+        'Muffin experts say the forecast for muffins next week is expected to include "Nick" shaped muffins.',
     ];
     if (state.totalBaked > 100) lines.push('Flour shortage rumors spread as muffin demand rises.');
     if (getCps() >= 1) lines.push('Neighbors report a warm glow and a lovely smell coming from your bakery.');
