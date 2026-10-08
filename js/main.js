@@ -3,7 +3,7 @@ import { state } from './state.js';
 import { click, tick, buyGenerators, sellGenerators, buyUpgrade } from './economy.js';
 import { loadGame, saveGame, wipeGame, startAutosave, exportSave, importSave } from './save.js';
 import { startIntegrityWatch } from './integrity.js';
-import { submitScore, savedName } from './leaderboard.js';
+import { submitScore, savedName } from '../api/leaderboard.js';
 import { initUI, buildUpgrades, render, floatText, formatNumber, message } from './ui.js';
 
 const earnedOffline = loadGame();
