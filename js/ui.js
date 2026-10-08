@@ -1,6 +1,6 @@
 // DOM only. Reads state, never changes it.
 import { state } from './state.js';
-import { fetchBoard } from '../api/leaderboard.js';
+import { fetchBoard } from './leaderboard.js';
 import {
     GENERATORS, UPGRADES, owned, hasUpgrade, bulkCost, sellValue, getCps, getClickPower,
     getMuffinImage, getCursorSkin,
