@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Muffin Clicker</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
+
 <body>
     <div class="game">
         <section class="col left" aria-label="Bakery">
@@ -37,7 +43,8 @@
             <h2 class="store-title">Store</h2>
             <div id="upgrades" class="upgrade-row"></div>
             <div class="mode">
-                <span class="mode-type"><button data-mode="buy">Buy</button><button data-mode="sell">Sell</button></span>
+                <span class="mode-type"><button data-mode="buy">Buy</button><button
+                        data-mode="sell">Sell</button></span>
                 <button data-qty="1">1</button><button data-qty="10">10</button><button data-qty="100">100</button>
             </div>
             <div id="generators" class="shop-list"></div>
@@ -45,4 +52,5 @@
     </div>
     <script type="module" src="js/main.js"></script>
 </body>
+
 </html>
