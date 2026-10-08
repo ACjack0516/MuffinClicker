@@ -3,13 +3,15 @@
 // Once triggered, state.tampered is saved with the game and the current save can't be submitted.
 import { state } from './state.js';
 
-const ENABLED = true; // set to false while developing so opening dev tools doesn't flag your save
+const ENABLED = false; // set to false while developing so opening dev tools doesn't flag your save
 const CHECK_MS = 2000;
 
 // Check 1: Chromium reads an Error's "stack" when it prints it in an open console.
 let consoleHit = false;
 const probe = new Error();
-Object.defineProperty(probe, 'stack', { get() { consoleHit = true; return ''; } });
+// What a person sees in the console is this text, so it explains itself.
+const NOTICE = 'Dev tools opened: this save is no longer eligible for the leaderboard.';
+Object.defineProperty(probe, 'stack', { get() { consoleHit = true; return NOTICE; } });
 
 // Check 2: a "debugger" statement is a no-op, unless dev tools are open and it pauses the page.
 function debuggerPaused() {

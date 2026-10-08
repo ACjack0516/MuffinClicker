@@ -44,6 +44,7 @@ async function submitScoreFlow() {
     if (!name?.trim()) return;
     message('Saving score...');
     const res = await submitScore(name.trim().slice(0, 20));
+    if (res.ok) saveGame();
     message(res.ok ? 'Score saved! Open the Leaderboard to see where you rank.' : res.error);
 }
 

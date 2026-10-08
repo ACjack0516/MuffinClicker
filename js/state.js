@@ -1,6 +1,13 @@
 // Single source of truth for everything that gets saved.
 export const SAVE_VERSION = 1;
 
+// Each run (new game or wipe) gets its own id, so each run is its own leaderboard entry.
+const newRunId = () => crypto.randomUUID?.() ??
+    'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = (Math.random() * 16) | 0;
+        return (c === 'x' ? r : (r & 3) | 8).toString(16);
+    });
+
 export function createInitialState() {
     return {
         version: SAVE_VERSION,
@@ -12,6 +19,8 @@ export function createInitialState() {
         startedAt: Date.now(),
         playTime: 0,      // seconds the game has been open and visible
         tampered: false,  // set when dev tools are detected; blocks leaderboard submission
+        runId: newRunId(),  // identifies this run on the leaderboard
+        scoreName: '',      // name this run was last submitted under
         generators: {}, // id -> count owned
         upgrades: {},   // id -> true when bought
         lastSaved: Date.now(),

@@ -1,20 +1,8 @@
-// Talks to the /api/leaderboard serverless function. No accounts: each browser gets a random
-// private player id, which is how a returning player updates their own row.
+// Talks to the /api/leaderboard serverless function. No accounts: every run (see state.runId) is
+// its own leaderboard entry, and submitting the same run again updates that entry.
 import { state } from './state.js';
 
-const ID_KEY = 'muffinClicker.playerId';
-const NAME_KEY = 'muffinClicker.leaderboardName';
-
-function playerId() {
-    let id = localStorage.getItem(ID_KEY);
-    if (!id) {
-        id = crypto.randomUUID();
-        localStorage.setItem(ID_KEY, id);
-    }
-    return id;
-}
-
-export const savedName = () => localStorage.getItem(NAME_KEY) ?? '';
+export const savedName = () => state.scoreName;
 
 async function call(url, options) {
     try {
@@ -34,13 +22,13 @@ export async function submitScore(name) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            playerId: playerId(),
+            playerId: state.runId,
             name,
             playtime: Math.floor(state.playTime),
             muffins: state.totalBaked,
             clicks: state.totalClicks,
         }),
     });
-    if (res.ok) localStorage.setItem(NAME_KEY, name);
+    if (res.ok) state.scoreName = name;
     return res;
 }
