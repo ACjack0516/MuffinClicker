@@ -61,6 +61,7 @@ export function importSave(text) {
         const data = JSON.parse(decodeURIComponent(escape(atob(text.trim()))));
         if (typeof data.muffins !== 'number') return false;
         loadState(data);
+        state.tampered = true; // imported saves can't be verified, so they can't be submitted
         saveGame();
         return true;
     } catch {

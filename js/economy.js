@@ -69,6 +69,7 @@ export function click() {
 
 export function tick(seconds) {
     addMuffins(getCps() * seconds);
+    state.playTime += seconds;
 }
 
 export function buyGenerator(id) {

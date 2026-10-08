@@ -10,6 +10,8 @@ export function createInitialState() {
         clickBaked: 0,
         bakeryName: 'Muffin Baker',
         startedAt: Date.now(),
+        playTime: 0,      // seconds the game has been open and visible
+        tampered: false,  // set when dev tools are detected; blocks leaderboard submission
         generators: {}, // id -> count owned
         upgrades: {},   // id -> true when bought
         lastSaved: Date.now(),
@@ -22,6 +24,8 @@ export const state = createInitialState();
 export function loadState(data) {
     const fresh = createInitialState();
     Object.assign(state, fresh, data, {
+        // Older saves had no playTime: estimate it from when the bakery opened.
+        playTime: data?.playTime ?? Math.max(0, (Date.now() - (data?.startedAt ?? Date.now())) / 1000),
         generators: { ...fresh.generators, ...(data?.generators ?? {}) },
         upgrades: { ...fresh.upgrades, ...(data?.upgrades ?? {}) },
     });

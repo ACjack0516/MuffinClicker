@@ -106,3 +106,12 @@ textarea { width: 100%; padding: .5rem; border-radius: .5rem; border: 1px solid 
 .shop-icon img { width: 3rem; height: 3rem; object-fit: contain; }
 .upgrade img { width: 2.2rem; height: 2.2rem; object-fit: contain; }
 .row-items img { height: 1.6rem; vertical-align: middle; }
+/* Leaderboard */
+.menu { grid-template-columns: repeat(2, auto); }
+.actions button.on { background: var(--butter); color: #2b2113; font-weight: 700; }
+.lb { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; counter-reset: rank; }
+.lb li { display: grid; grid-template-columns: 2.5rem 1fr auto; gap: .5rem; padding: .35rem .6rem;
+    border-radius: .5rem; background: rgba(20, 14, 40, .45); }
+.lb li::before { counter-increment: rank; content: counter(rank); font-weight: 800; color: var(--butter); }
+.lb-name { overflow-wrap: anywhere; }
+.lb-val { font-weight: 700; }

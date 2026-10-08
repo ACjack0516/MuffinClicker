@@ -1,5 +1,6 @@
 // DOM only. Reads state, never changes it.
 import { state } from './state.js';
+import { fetchBoard } from './leaderboard.js';
 import {
     GENERATORS, UPGRADES, owned, hasUpgrade, bulkCost, sellValue, getCps, getClickPower,
     getMuffinImage, getCursorSkin,
@@ -109,6 +110,8 @@ export function initUI(h) {
         if (b) h.onUpgrade(b.dataset.id);
     });
     els['main-view'].addEventListener('click', (e) => {
+        const t = e.target.closest('[data-board]');
+        if (t) return loadBoard(t.dataset.board);
         const a = e.target.closest('[data-action]');
         if (a) h.onAction(a.dataset.action, $('save-text'));
     });
@@ -137,6 +140,27 @@ export function buildUpgrades() {
     ).join('');
 }
 
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const BOARD_FORMAT = {
+    muffins: (v) => formatNumber(v),
+    clicks: (v) => Number(v).toLocaleString(),
+    playtime: (v) => formatTime(v * 1000),
+};
+let lbBoard = 'muffins';
+
+async function loadBoard(board) {
+    lbBoard = board;
+    els['main-view'].querySelectorAll('[data-board]').forEach((b) => b.classList.toggle('on', b.dataset.board === board));
+    const body = $('lb-body');
+    body.textContent = 'Loading...';
+    const res = await fetchBoard(board);
+    if (ui.view !== 'leaderboard' || lbBoard !== board) return; // user moved on while loading
+    if (!res.ok) body.innerHTML = `<p class="empty">${esc(res.error)}</p>`;
+    else if (!res.rows.length) body.innerHTML = '<p class="empty">No scores yet. Be the first! (Options > Save score)</p>';
+    else body.innerHTML = `<ol class="lb">${res.rows.map((r) =>
+        `<li><span class="lb-name">${esc(r.name)}</span><span class="lb-val">${BOARD_FORMAT[board](r.value)}</span></li>`).join('')}</ol>`;
+}
+
 function setView(view) {
     ui.view = view;
     document.querySelectorAll('[data-view]').forEach((b) => b.classList.toggle('on', b.dataset.view === view));
@@ -145,6 +169,7 @@ function setView(view) {
     if (view === 'options') {
         v.innerHTML = `<h2>Options</h2>
             <div class="actions">
+                <button data-action="score">Save score</button>
                 <button data-action="save">Save now</button>
                 <button data-action="export">Export save</button>
                 <button data-action="import">Import save</button>
@@ -158,6 +183,15 @@ function setView(view) {
             <p>Selling a building returns 25% of what its last copy cost.</p>`;
     } else if (view === 'stats') {
         renderStats();
+    } else if (view === 'leaderboard') {
+        v.innerHTML = `<h2>Leaderboard</h2>
+            <div class="actions">
+                <button data-board="muffins">Muffins baked</button>
+                <button data-board="clicks">Clicks</button>
+                <button data-board="playtime">Playtime</button>
+            </div>
+            <div id="lb-body"></div>`;
+        loadBoard(lbBoard);
     }
 }
 
@@ -177,7 +211,7 @@ function renderStats() {
         ['Buildings owned', GENERATORS.reduce((s, g) => s + owned(g.id), 0).toLocaleString()],
         ['Recipes unlocked', `${UPGRADES.filter((u) => hasUpgrade(u.id)).length} / ${UPGRADES.length}`],
         ['Bakery opened', new Date(state.startedAt).toLocaleString()],
-        ['Time open', formatTime(Date.now() - state.startedAt)],
+        ['Time played', formatTime(state.playTime * 1000)],
     ];
     els['main-view'].innerHTML = `<h2>Stats</h2><dl class="stats">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`;
 }
