@@ -4,8 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Muffin Clicker</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    
+    <div class="game">
+        <section class="col left" aria-label="Bakery">
+            <button id="bakery-name" class="plate name" title="Rename your bakery"></button>
+            <div class="plate">
+                <div class="count"><span id="muffin-count">0</span> muffins</div>
+                <div class="rate">per second: <span id="cps">0</span></div>
+            </div>
+            <button id="muffin-btn" class="muffin" aria-label="Bake a muffin">
+                <img id="muffin-img" src="assets/muffins/Muff_Regular.png" alt="" draggable="false">
+            </button>
+            <div class="click-power">per click: <span id="click-power">1</span></div>
+        </section>
+
+        <section class="col middle" aria-label="Bakery floor">
+            <nav class="topbar">
+                <div class="menu">
+                    <button data-view="options">Options</button>
+                    <button data-view="stats">Stats</button>
+                    <button data-view="info">Info</button>
+                </div>
+                <p id="news" class="news"></p>
+            </nav>
+            <div id="main-view" class="view"></div>
+        </section>
+
+        <aside class="col right" aria-label="Store">
+            <h2 class="store-title">Store</h2>
+            <div id="upgrades" class="upgrade-row"></div>
+            <div class="mode">
+                <span class="mode-type"><button data-mode="buy">Buy</button><button data-mode="sell">Sell</button></span>
+                <button data-qty="1">1</button><button data-qty="10">10</button><button data-qty="100">100</button>
+            </div>
+            <div id="generators" class="shop-list"></div>
+        </aside>
+    </div>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
