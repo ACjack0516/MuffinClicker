@@ -261,12 +261,12 @@ export function render(now = performance.now()) {
 function showNews() {
     const lines = [
         'Local baker insists a muffin is just a cupcake with ambition.',
-        'Scientists confirm the muffin top is the best part. Muffin bottoms demand a recount.',
+        'Local scientist Dr.Arnold confirms the muffin top is the best part. Muffin bottoms demand a recount.',
         'Blueberry or chocolate chip? Town hall meeting ends in a draw.',
         'Muffin experts say the forecast for muffins next week is expected to include "Nick" shaped muffins.',
     ];
     if (state.totalBaked > 100) lines.push('Flour shortage rumors spread as muffin demand rises.');
-    if (getCps() >= 1) lines.push('Neighbors report a warm glow and a lovely smell coming from your bakery.');
+    if (getCps() >= 1) lines.push('Your neighbor Jillian reports a warm glow and a lovely smell coming from your bakery.');
     if (owned('factory') > 0) lines.push('Factory whistle heard three towns over. Muffins have no comment.');
     els.news.textContent = `News: ${lines[Math.floor(Math.random() * lines.length)]}`;
 }
